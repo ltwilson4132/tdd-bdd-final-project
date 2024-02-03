@@ -101,6 +101,45 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(new_product.available, product.available)
         self.assertEqual(new_product.category, product.category)
 
-    #
-    # ADD YOUR TEST CASES HERE
-    #
+    def test_read_a_product(self):
+        """It should Read a product from the database"""
+        product = ProductFactory()
+        app.logger.info(f"Testing Read a product: {product}")
+        product.id = None
+        product.create()
+        self.assertIsNotNone(product.id)
+        found = Product.find(product.id)
+        self.assertEqual(found.id, product.id)
+        self.assertEqual(found.name, product.name)
+        self.assertEqual(found.description, product.description)
+        self.assertEqual(found.price, product.price)
+        self.assertEqual(found.available, product.available)
+        self.assertEqual(found.category, product.category)
+
+    def test_update_a_product(self):
+        """It should Update a product that exists in the database"""
+        # Create initial product
+        product = ProductFactory()
+        app.logger.info(f"Testing Update a product: {product}")
+        product.id = None
+        product.create()
+        original_id = product.id
+        original_description = product.description
+        self.assertIsNotNone(product.id)
+        app.logger.info(f"Creating product: {product}")
+
+        # Updating description
+        product.description = "Testing"
+        product.update()
+
+        self.assertEqual(original_id, product.id)
+        self.assertNotEqual(original_description, "Testing")
+        self.assertEqual(product.description, "Testing")
+
+        # Fetch all products with new description
+        products = Product.all()
+        self.assertEqual(len(products), 1)
+        self.assertEqual(products[0].id, original_id)
+        self.assertEqual(products[0].description, "Testing")
+
+    def test_delete_a_product(self)
