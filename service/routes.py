@@ -106,9 +106,20 @@ def create_products():
 # R E A D   A   P R O D U C T
 ######################################################################
 
-#
-# PLACE YOUR CODE HERE TO READ A PRODUCT
-#
+@app.route("/products/<product_id>", methods=["GET"])
+def get_products(product_id):
+    """
+    Reads a Product
+    This endpoint will read a product based on the product_id passed in
+    """
+    app.logger.info(f"Request to Read Product: {product_id}")
+    found = Product.find(product_id)
+
+    if found is None:
+        abort(status.HTTP_404_NOT_FOUND, f"Product with id '{product_id}' was not found.")
+    
+    app.logger.info(f"Returning product: {found.name}")
+    return found.serialize(), status.HTTP_200_OK
 
 ######################################################################
 # U P D A T E   A   P R O D U C T
