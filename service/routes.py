@@ -106,7 +106,7 @@ def create_products():
 # R E A D   A   P R O D U C T
 ######################################################################
 
-@app.route("/products/<product_id>", methods=["GET"])
+@app.route("/products/<int:product_id>", methods=["GET"])
 def get_products(product_id):
     """
     Reads a Product
@@ -125,10 +125,11 @@ def get_products(product_id):
 # U P D A T E   A   P R O D U C T
 ######################################################################
 
-@app.route("/products/<product_id>", methods=["PUT"])
+@app.route("/products/<int:product_id>", methods=["PUT"])
 def update_product(product_id):
     """
     Updates a Product
+
     This endpoint will update a product based on the product_id passed in
     """
     app.logger.info(f"Request to Update Product: {product_id}")
@@ -149,7 +150,18 @@ def update_product(product_id):
 # D E L E T E   A   P R O D U C T
 ######################################################################
 
+@app.route("/products/<int:product_id>", methods=["DELETE"])
+def delete_product(product_id):
+    """
+    Deletes a Product
+    
+    This endpoint will delete a product based on the product_id passed in
+    """
+    app.logger.info(f"Request to Delete Product: {product_id}")
 
-#
-# PLACE YOUR CODE TO DELETE A PRODUCT HERE
-#
+    product = Product.find(product_id)
+    if product:
+        product.delete()
+        app.logger.info(f"Product successfully deleted: {product.name}")
+    
+    return {}, status.HTTP_204_NO_CONTENT

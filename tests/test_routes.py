@@ -226,7 +226,7 @@ class TestProductRoutes(TestCase):
         # Delete product
         resp = self.client.delete(f"{BASE_URL}/{test_product.id}")
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(resp.get_json(), {})
+        self.assertEqual(len(resp.data), 0)
 
         # Try to get product to make sure it has been deleted 
         resp = self.client.get(f"{BASE_URL}/{test_product.id}")
