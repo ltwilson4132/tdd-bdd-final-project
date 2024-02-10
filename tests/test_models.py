@@ -262,3 +262,11 @@ class TestProductModel(unittest.TestCase):
         for product in found_list:
             self.assertEqual(product.price, price)
             self.assertIsInstance(product.price, Decimal)
+
+    def test_deserialize_invalid_available(self):
+        """Tests deserializing a Product with an availability that is not a bool"""
+        product = Product()
+        data = ProductFactory().serialize()
+        data["available"] = "Test"
+
+        self.assertRaises(DataValidationError, product.deserialize, data)
