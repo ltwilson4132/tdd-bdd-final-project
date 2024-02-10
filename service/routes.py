@@ -136,6 +136,7 @@ def list_all_products():
 # R E A D   A   P R O D U C T
 ######################################################################
 
+
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_products(product_id):
     """
@@ -148,13 +149,14 @@ def get_products(product_id):
 
     if found is None:
         abort(status.HTTP_404_NOT_FOUND, f"Product with id '{product_id}' was not found.")
-    
+
     app.logger.info(f"Returning product: {found.name}")
     return found.serialize(), status.HTTP_200_OK
 
 ######################################################################
 # U P D A T E   A   P R O D U C T
 ######################################################################
+
 
 @app.route("/products/<int:product_id>", methods=["PUT"])
 def update_product(product_id):
@@ -175,17 +177,17 @@ def update_product(product_id):
     product.update()
     app.logger.info(f"Product successfully updated: {product.name}")
     return product.serialize(), status.HTTP_200_OK
-    
 
 ######################################################################
 # D E L E T E   A   P R O D U C T
 ######################################################################
 
+
 @app.route("/products/<int:product_id>", methods=["DELETE"])
 def delete_product(product_id):
     """
     Deletes a Product
-    
+
     This endpoint will delete a product based on the product_id passed in
     """
     app.logger.info(f"Request to Delete Product: {product_id}")
@@ -194,5 +196,5 @@ def delete_product(product_id):
     if product:
         product.delete()
         app.logger.info(f"Product successfully deleted: {product.name}")
-    
+
     return {}, status.HTTP_204_NO_CONTENT
