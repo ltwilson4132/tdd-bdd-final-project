@@ -245,7 +245,7 @@ class TestProductRoutes(TestCase):
     def test_list_by_name(self):
         """It should Get a list of Products by name"""
         # Create products and get name to test
-        products = self._create_products(5)
+        products = self._create_products(10)
         test_name = products[0].name
         count = len([product for product in products if product.name == test_name])
 
@@ -260,7 +260,7 @@ class TestProductRoutes(TestCase):
     def test_list_by_category(self):
         """It should Get a list of Products by Category"""
         # Create products and get category to test
-        products = self._create_products(5)
+        products = self._create_products(10)
         test_category = products[0].category
         count = len([product for product in products if product.category == test_category])
 
@@ -271,6 +271,20 @@ class TestProductRoutes(TestCase):
         self.assertEqual(len(results), count)
         for product in results:
             self.assertEqual(product["category"], test_category.name)
+
+    def test_list_by_availability(self):
+        """It should Get a list of Products by availability"""
+        # Create products and get availability to test
+        products = self._create_products(10)
+        count = len([product for product in products if product.available is True])
+
+        # Get List by availability
+        resp = self.client.get(BASE_URL, query_string=f"available=true")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        results = resp.get_json()
+        self.assertEqual(len(results), count)
+        for product in results:
+            self.assertEqual(product["available"], True)
 
     ######################################################################
     # Utility functions
