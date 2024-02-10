@@ -107,7 +107,16 @@ def list_all_products():
     """
     app.logger.info("Request to list all Products.")
 
-    products = Product.all()
+    products = []
+    name = request.args.get('name')
+
+    if name:
+        app.logger.info("Find by name: %s", name)
+        products = Product.find_by_name(name)
+    else:
+        app.logger.info("Find all")
+        products = Product.all()
+
     results = [product.serialize() for product in products]
 
     app.logger.info(f"{len(results)} Products returned")
