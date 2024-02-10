@@ -216,7 +216,6 @@ class TestProductRoutes(TestCase):
 
     def test_delete_product(self):
         """It should Delete a Product"""
-
         # create a list products containing 5 products using the _create_products() method. 
         products = self._create_products(5)
 
@@ -234,6 +233,13 @@ class TestProductRoutes(TestCase):
         new_count = self.get_product_count()
         self.assertEqual(new_count, (initial_count - 1))
 
+    def test_get_product_list(self):
+        """It should Get a list of Products"""
+        self._create_products(5)
+        resp = self.client.get(BASE_URL)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), 5)
 
     ######################################################################
     # Utility functions
