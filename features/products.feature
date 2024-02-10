@@ -65,16 +65,16 @@ Scenario: Update a Product
     And I press the "Update" button
     Then I should see the message "Success"
     When I copy the "Id" field
-    And press the "Clear" button
-    And paste the "Id" field
-    And press the "Retrive" button
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Retrieve" button
     Then I should see the message "Success"
     And I should see "Shoes" in the "Name" field
     And I should see "110.0" in the "Price" field
     When I press the "Clear" button
     And I press the "Search" button
-    Then I should see "Shoes" in the "Name" field
-    And I should see "110.0" in the "Price" field
+    Then I should see "Shoes" in the results
+    And I should see "110.0" in the results
 
 Scenario: Delete a Product
     When I visit the "Home Page"
@@ -91,7 +91,7 @@ Scenario: Delete a Product
     When I press the "Clear" button
     And I press the "Search" button
     Then I should see the message "Success"
-    And I should not see "Big Mac" in the "Name" field
+    And I should not see "Big Mac" in the results
 
 Scenario: List all Products
     When I visit the "Home Page"
