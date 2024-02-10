@@ -89,7 +89,49 @@ Scenario: Delete a Product
     And I press the "Delete" button
     Then I should see the message "Product has been Deleted!"
     When I press the "Clear" button
-    And I paste the "Id" field
     And I press the "Search" button
     Then I should see the message "Success"
     And I should not see "Big Mac" in the "Name" field
+
+Scenario: List all Products
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Hat" in the results
+    And I should see "Shoes" in the results
+    And I should see "Big Mac" in the results
+    And I should see "Sheets" in the results
+
+Scenario: Searching a Product based on Category
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I select "Food" in the "Category" dropdown
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Big Mac" in the results
+    And I should not see "Hat" in the results
+    And I should not see "Shoes" in the results
+    And I should not see "Sheets" in the results
+
+Scenario: Searching a Product based on Availability
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I select "True" in the "Available" dropdown
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Hat" in the results
+    And I should see "Big Mac" in the results
+    And I should see "Sheets" in the results
+    And I should not see "Shoes" in the results
+
+Scenario: Searching a Product based on Name
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I set the "Name" to "Sheets"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Sheets" in the results
+    And I should not see "Hat" in the results
+    And I should not see "Shoes" in the results
+    And I should not see "Big Mac" in the results
